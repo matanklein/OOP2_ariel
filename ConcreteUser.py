@@ -1,81 +1,47 @@
 from User import User
-from abc import ABC, abstractmethod
-import matplotlib.image as img
-import matplotlib.pyplot as plt
-
-
-class Post(ABC):
-
-    def like(self):
-        pass
-
-    def comment(self):
-        pass
-
-    @abstractmethod
-    def __str__(self):
-        pass
-
-
-class TextPost(Post):
-
-    def __init__(self, text):
-        self.text = text
-
-    def __str__(self):
-        print(self.text)
-
-
-class ImagePost(Post):
-
-    def __init__(self, image):
-        self.image = image
-
-    def __str__(self):
-        picture = img.imread(self.image)
-        plt.imshow(picture)
-
-
-class SalePost(Post):
-
-    def __init__(self, *data):
-        self.description = data[0]
-        self.price = data[1]
-        self.location = data[2]
-        self.is_available = True
-
-    def __str__(self):
-        pass
-
-    def sold(self, password):
-        pass
+from Post import *
 
 
 class ConcreteUser(User):
 
     def __init__(self, username, password):
-        self.username = username
-        self.password = password
+        self.number_of_posts = 0
         self.isonline = True
-        super().__init__()
-
-    def like(self):
-        pass
-
-    def upload(self):
-        pass
+        super().__init__(username, password)
 
     def __str__(self):
-        pass
+        return f"User name: {self.username}, Number of posts: {self.number_of_posts}, Number of followers: {self.number_of_followers}"
+
 
     def update(self, notification):
-        pass
+        for member in self._members:
+            member.add_notification(notification)
 
     def publish_post(self, post_type, *data):
         if post_type == "Text":
-            return TextPost(data[0])
+            post = TextPost(self, data[0])
+            self.number_of_posts = self.number_of_posts + 1
+            print(post)
+            self.notify(self.username + " has a new post")
+            return post
+
         if post_type == "Image":
-            return ImagePost(data[0])
+            post = ImagePost(self, data[0])
+            self.number_of_posts = self.number_of_posts + 1
+            print(post)
+            self.notify(self.username + " has a new post")
+            return post
+
         if post_type == "Sale":
-            return SalePost(*data)
+            post = SalePost(self, *data)
+            self.number_of_posts = self.number_of_posts + 1
+            print(post)
+            self.notify(self.username + " has a new post")
+            return post
+
         raise Exception
+
+    def print_notifications(self):
+        print(f"{self.username}'s notifications:")
+        for massage in self._notifications:
+            print(massage)

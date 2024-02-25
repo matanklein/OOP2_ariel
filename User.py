@@ -3,29 +3,24 @@ from abc import ABC, abstractmethod
 
 class User(ABC):
 
-    def __init__(self):
+    def __init__(self, username, password):
         self._members = []
         self._notifications = []
-
-
-
-    @abstractmethod
-    def like(self):
-        pass
-
-    @abstractmethod
-    def upload(self):
-        pass
+        self.username = username
+        self.password = password
+        self.number_of_followers = 0
 
     @abstractmethod
     def __str__(self):
         pass
 
     def follow(self, member):
-        self._members.append(member)
+        member.addfollow(self)
+        print(self.username + " started following " + member.username)
 
     def unfollow(self, member):
-        self._members.remove(member)
+        member.removefollow(self)
+        print(self.username + " unfollowed " + member.username)
 
     def notify(self, notification):
         for member in self._members:
@@ -34,3 +29,14 @@ class User(ABC):
     @abstractmethod
     def update(self, notification):
         pass
+
+    def addfollow(self, member):
+        self._members.append(member)
+        self.number_of_followers = self.number_of_followers + 1
+
+    def removefollow(self, member):
+        self._members.remove(member)
+        self.number_of_followers = self.number_of_followers - 1
+
+    def add_notification(self, notification):
+        self._notifications.append(notification)
