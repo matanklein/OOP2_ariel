@@ -15,8 +15,9 @@ class User(ABC):
         pass
 
     def follow(self, member):
-        member.addfollow(self)
-        print(self.username + " started following " + member.username)
+        if not member.is_follower(self):
+            member.addfollow(self)
+            print(self.username + " started following " + member.username)
 
     def unfollow(self, member):
         member.removefollow(self)
@@ -40,3 +41,6 @@ class User(ABC):
 
     def add_notification(self, notification):
         self._notifications.append(notification)
+
+    def is_follower(self, member):
+        return member in self._members

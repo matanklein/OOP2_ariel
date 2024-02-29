@@ -9,12 +9,14 @@ class Post(ABC):
         self._owner = owner
 
     def like(self, member):
-        print(f"notification to {self._owner.username}: {member.username} liked your post")
-        self._owner.add_notification(f"{member.username} liked your post")
+        if self._owner.username != member.username:
+            print(f"notification to {self._owner.username}: {member.username} liked your post")
+            self._owner.add_notification(f"{member.username} liked your post")
 
     def comment(self, member, comment):
-        print(f"notification to {self._owner.username}: {member.username} commented on your post: {comment}")
-        self._owner.add_notification(f"{member.username} commented on your post")
+        if self._owner.username != member.username:
+            print(f"notification to {self._owner.username}: {member.username} commented on your post: {comment}")
+            self._owner.add_notification(f"{member.username} commented on your post")
 
     @abstractmethod
     def __str__(self):

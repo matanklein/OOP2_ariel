@@ -10,9 +10,11 @@ class SocialNetwork:
         return cls.__instance
 
     def __init__(self, name):
+        # Checks if name already set/created
+        if not hasattr(self, 'name'):
+            self.name = name
+            print("The social network " + self.name + " was created!")
         self.users = []
-        self.name = name
-        print("The social network " + self.name + " was created!")
 
     def __str__(self):
         result = f"{self.name} social network:"
