@@ -30,7 +30,7 @@ class TextPost(Post):
         super().__init__(owner)
 
     def __str__(self):
-        return f"{self._owner.username} published a post:\n{self.text}\n"
+        return f"{self._owner.username} published a post:\n\"{self.text}\"\n"
 
 
 class ImagePost(Post):
@@ -59,12 +59,15 @@ class SalePost(Post):
         super().__init__(owner)
 
     def __str__(self):
-        return f"{self._owner.username} posted a product for sale: \nFor sale! {self.description}, price: {self.price}, pickup from: {self.location}\n"
+        if self.is_available:
+            return f"{self._owner.username} posted a product for sale:\nFor sale! {self.description}, price: {self.price}, pickup from: {self.location}\n"
+        return f"{self._owner.username} posted a product for sale:\nSold! {self.description}, price: {self.price}, pickup from: {self.location}\n"
 
     def sold(self, password):
         if self._owner.password != password:
             raise Exception
         self.is_available = False
+        print(f"{self._owner.username}'s product is sold")
 
     def discount(self, discount, password):
         if self._owner.password != password:

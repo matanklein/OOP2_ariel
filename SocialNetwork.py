@@ -37,8 +37,10 @@ class SocialNetwork:
         for member in self.users:
             if member.username == username:
                 member.isonline = False
+                print(f"{member.username} disconnected")
 
     def log_in(self, username, password):
         for member in self.users:
             if member.username == username and member.password == password:
                 member.isonline = True
+                print(f"{member.username} connected")

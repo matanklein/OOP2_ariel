@@ -12,10 +12,9 @@ class ConcreteUser(User):
     def __str__(self):
         return f"User name: {self.username}, Number of posts: {self.number_of_posts}, Number of followers: {self.number_of_followers}"
 
-
     def update(self, notification):
-        for member in self._members:
-            member.add_notification(notification)
+        # for member in self._members:
+        self.add_notification(notification)
 
     def publish_post(self, post_type, *data):
         if post_type == "Text":
