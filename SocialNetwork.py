@@ -17,10 +17,10 @@ class SocialNetwork:
         self.users = []
 
     def __str__(self):
-        result = f"{self.name} social network:"
-        for member in self.users:
-            result += f"\nUser name: {member.username}, Number of posts: {member.number_of_posts}, Number of followers: {member.number_of_followers}"
-        return result
+        print(f"{self.name} social network:")
+        for user in self.users:
+            print(user)
+        return ""
 
     def sign_up(self, username, password):
         for member in self.users:
